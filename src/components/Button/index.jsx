@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import PropTypes from "prop-types";
 
-function Button({caption, handler}) {
+const  Button = ({caption, handler}) => {
   return (
     <button onClick={handler}>{caption}</button>
-  )
+  );
 }
 
 Button.defaultProps = {
@@ -14,7 +14,7 @@ Button.defaultProps = {
 
 Button.propTypes = {
   caption: PropTypes.string.isRequired,
-  handler: propTypes.func.isRequired
+  handler: PropTypes.func.isRequired
 };
 
 export default Button;

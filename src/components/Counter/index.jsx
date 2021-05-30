@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react'
+import Button from "../Button";
+import "./Counter.css";
 
 const Counter = () => {
 
@@ -8,6 +10,10 @@ const Counter = () => {
   const [isAutoMode, setIsAutoMode] = useState(false);
   const [controlValue, setControlValue] = useState("1");
   const [delay, setDelay] = useState(1000);
+  const [minStep, setMinStep] = useState(1);
+  const [maxStep, setMaxStep] = useState(100);
+  const [minDelay, setMinDelay] = useState(100);
+  const [maxDelay, setMaxDelay] = useState(10000);
 
   const changeStep = ({target: {value}}) => {
     setStep(+value || 1);
@@ -32,15 +38,37 @@ const Counter = () => {
 
   const changeDelay = ({target, target: { value }, code}) => {
     if(code === "Enter"){
-      const regex = /^[1-9][0-9]{1,3}$|(10000)/;
+      if(value.length < 2){
+        console.log("Value must be more then ", value);
+        return;
+      }
+      const regex = new RegExp(`[1-9][0-9]{2}[0-9]{0,1}$|(${maxDelay})`);
       if(regex.test(value)){
         console.log("Regex = true");
         target.value = value;
         setDelay(+value);
+        target.blur();
       }else{
         console.log("Invalid value!!!");
         return;
       }
+    }
+  }
+
+  const onKeyUp = ({target, charCode}) => {
+    if(charCode < 48 || charCode > 57){
+      target.value = target.value.replace(/[^\d]/g,'');
+      return;
+    }
+  }
+
+  const validateStep = ({target, target: { value }}) => {
+    if(value.length >= 3 && +value !== maxStep){
+      console.log("Mistake");
+      target.value = value.slice(0, 2);
+      setStep(+target.value);
+      setControlValue(target.value);
+      return;
     }
   }
 
@@ -58,14 +86,42 @@ const Counter = () => {
     return () => clearTimeout(id);
   });
   return (
-    <article>
-      <button onClick={changeMode}>Change Mode</button>
+    <article className="counter">
+      <div className="block">
+        <h2 className="block-header">Блок регулирования режима</h2>
+        <div className="flex-column">
+          <p>Choose mode increase or decrease</p>
+          <Button handler={changeMode} caption={"Change Mode"} />
+        </div>
+      </div>
+ 
+      
       <div className="display">{value}</div>
-      <div>Current step = {step}</div>
-      <button onClick={isIncrease ? increase : decrease}>{isIncrease ? "Increase" : "Decrease"}</button>
-      <input onChange={changeStep} type="number" value={controlValue} min="1" max="30" />
-      <button onClick={autoClick}>Auto Click Mode {isAutoMode ? "On" : "Off"}</button>
-      <input onKeyPress={changeDelay} type="text" placeholder="Enter delay time from 10 to 10000 ms" />
+      <div className="block">
+        <h2 className="block-header">Блок для регулирования шага</h2>
+        <div className="flex-column">
+          <p>Текущее значение шага = {step}</p>
+          <p>Введите новое значение шага и нажмите Enter</p>
+          <input onChange={changeStep} onKeyUp={validateStep} type="number" value={controlValue} min={minStep} max={maxStep} />
+        </div>
+      </div>
+
+      <div className="block">
+        <h2 className="block-header">Текущий режим</h2>
+        <Button handler={isIncrease ? increase : decrease}
+              caption={isIncrease ? "Increase" : "Decrease"}/>
+      </div>
+      <div className="block">
+        <h2 className="block-header">Блок автоклика</h2>
+        <div className="flex-column">
+          <p>Текущая задержка длс автоклика в милисекундах: {delay}</p>
+          <p>Введите время для задержки между срабатываниями и нажмите Enter</p>
+          <input onKeyUp={onKeyUp} onKeyPress={changeDelay} type="text" placeholder={`Enter delay time from ${minDelay} to ${maxDelay} ms`} />
+          <p>Нажмите на кнопку что бы активировать/деактивиротать авторежим</p>
+          <Button handler={autoClick}
+              caption={`Auto Click Mode: ${isAutoMode ? "On" : "Off"}`}/>
+        </div>
+      </div>
     </article>
   )
 }
