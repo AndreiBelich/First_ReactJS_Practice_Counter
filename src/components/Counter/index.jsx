@@ -38,7 +38,8 @@ const Counter = () => {
 
   const changeDelay = ({target, target: { value }, code}) => {
     if(code === "Enter"){
-      if(value.length < 2){
+      const minDelayStr = "" + minDelay;
+      if(value.length < minDelayStr.length){
         console.log("Value must be more then ", value);
         return;
       }
@@ -90,7 +91,7 @@ const Counter = () => {
       <div className="block">
         <h2 className="block-header">Блок регулирования режима</h2>
         <div className="flex-column">
-          <p>Choose mode increase or decrease</p>
+          <p className="paragraph">Выберите режим increase или decrease</p>
           <Button handler={changeMode} caption={"Change Mode"} />
         </div>
       </div>
@@ -100,26 +101,28 @@ const Counter = () => {
       <div className="block">
         <h2 className="block-header">Блок для регулирования шага</h2>
         <div className="flex-column">
-          <p>Текущее значение шага = {step}</p>
-          <p>Введите новое значение шага и нажмите Enter</p>
+          <p className="paragraph">Текущее значение шага = {step}</p>
+          <p className="paragraph">Введите новое значение шага и нажмите Enter</p>
           <input onChange={changeStep} onKeyUp={validateStep} type="number" value={controlValue} min={minStep} max={maxStep} />
         </div>
       </div>
 
       <div className="block">
         <h2 className="block-header">Текущий режим</h2>
-        <Button handler={isIncrease ? increase : decrease}
-              caption={isIncrease ? "Increase" : "Decrease"}/>
+        <div className="flex-column">
+          <Button handler={isIncrease ? increase : decrease}
+                caption={isIncrease ? "Increase" : "Decrease"}/>
+        </div>
       </div>
       <div className="block">
         <h2 className="block-header">Блок автоклика</h2>
         <div className="flex-column">
-          <p>Текущая задержка длс автоклика в милисекундах: {delay}</p>
-          <p>Введите время для задержки между срабатываниями и нажмите Enter</p>
-          <input onKeyUp={onKeyUp} onKeyPress={changeDelay} type="text" placeholder={`Enter delay time from ${minDelay} to ${maxDelay} ms`} />
-          <p>Нажмите на кнопку что бы активировать/деактивиротать авторежим</p>
+          <p className="paragraph">Текущая задержка для автоклика в милисекундах: {delay}</p>
+          <p className="paragraph">Введите время для задержки между срабатываниями и нажмите Enter</p>
+          <input className={"input"} onKeyUp={onKeyUp} onKeyPress={changeDelay} type="text" placeholder={`Enter delay time from ${minDelay} to ${maxDelay} ms`} />
+          <p className="paragraph">Нажмите на кнопку что бы активировать/деактивиротать авторежим</p>
           <Button handler={autoClick}
-              caption={`Auto Click Mode: ${isAutoMode ? "On" : "Off"}`}/>
+                  caption={`Auto Click Mode: ${isAutoMode ? "On" : "Off"}`}/>
         </div>
       </div>
     </article>

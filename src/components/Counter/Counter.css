@@ -8,16 +8,13 @@
 
 .block{
   border: 1px solid black;
-  border-bottom: 3px solid green;
-}
-
-.block > *{
-  margin: 10px 0;
+  border-bottom: 3px solid black;
 }
 
 .block-header{
   font-weight: bold;
   text-align: center;
+  margin-top: 25px;
 }
 
 .flex-column{
@@ -38,4 +35,14 @@
 .counter{
   width: 450px;
   margin: 0 auto;
+}
+
+.input{
+  width: 80%;
+}
+
+.paragraph{
+  margin: 10px 0;
+  text-align: center;
+  line-height: 1.4;
 }

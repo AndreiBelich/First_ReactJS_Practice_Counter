@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import "./Button.css";
 
 const  Button = ({caption, handler}) => {
   return (
-    <button onClick={handler}>{caption}</button>
+    <button className="button" onClick={handler}>{caption}</button>
   );
 }
 
