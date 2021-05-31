@@ -12,7 +12,7 @@ const Counter = () => {
   const [delay, setDelay] = useState(1000);
   const [minStep, setMinStep] = useState(1);
   const [maxStep, setMaxStep] = useState(100);
-  const [minDelay, setMinDelay] = useState(100);
+  const [minDelay, setMinDelay] = useState(500);
   const [maxDelay, setMaxDelay] = useState(10000);
 
   const changeStep = ({target: {value}}) => {
@@ -43,7 +43,7 @@ const Counter = () => {
         console.log("Value must be more then ", value);
         return;
       }
-      const regex = new RegExp(`[1-9][0-9]{2}[0-9]{0,1}$|(${maxDelay})`);
+      const regex = new RegExp(`[5-9][0-9]{2}[0-9]{0,1}$|(${maxDelay})`);
       if(regex.test(value)){
         console.log("Regex = true");
         target.value = value;
@@ -96,7 +96,6 @@ const Counter = () => {
         </div>
       </div>
  
-      
       <div className="display">{value}</div>
       <div className="block">
         <h2 className="block-header">Блок для регулирования шага</h2>
