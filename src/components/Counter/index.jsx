@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Button from "../Button";
-import "./Counter.css";
+import style from "./Counter.module.scss";
 
 const Counter = () => {
 
@@ -88,44 +88,44 @@ const Counter = () => {
     return () => clearTimeout(id);
   });
   return (
-    <article className="counter">
-      <div className="block">
-        <h2 className="block-header">Блок регулирования режима</h2>
-        <div className="flex-column">
-          <p className="paragraph">Выберите режим increase или decrease</p>
+    <article className={style.counter}>
+      <div className={style.block}>
+        <h2 className={style.blockHeader}>Блок регулирования режима</h2>
+        <div className={style.flexColumn}>
+          <p className={style.paragraph}>Выберите режим increase или decrease</p>
           <Button handler={changeMode} caption={"Change Mode"} />
         </div>
       </div>
  
-      <div className="display">{value}</div>
-      <div className="block">
-        <h2 className="block-header">Блок для регулирования шага</h2>
-        <div className="flex-column">
-          <p className="paragraph">Текущее значение шага = {step}</p>
-          <p className="paragraph">Введите новое значение шага и нажмите Enter</p>
+      <div className={style.display}>{value}</div>
+      <div className={style.block}>
+        <h2 className={style.blockHeader}>Блок для регулирования шага</h2>
+        <div className={style.flexColumn}>
+          <p className={style.paragraph}>Текущее значение шага = {step}</p>
+          <p className={style.paragraph}>Введите новое значение шага и нажмите Enter</p>
           <input onChange={changeStep} onKeyUp={validateStep} type="number" value={controlValue} min={minStep} max={maxStep} />
         </div>
       </div>
 
-      <div className="block">
-        <h2 className="block-header">Текущий режим</h2>
-        <div className="flex-column">
+      <div className={style.block}>
+        <h2 className={style.blockHeader}>Текущий режим</h2>
+        <div className={style.flexColumn}>
           <Button handler={isIncrease ? increase : decrease}
                 caption={isIncrease ? "Increase" : "Decrease"}/>
         </div>
       </div>
-      <div className="block">
-        <h2 className="block-header">Блок автоклика</h2>
-        <div className="flex-column">
-          <p className={`paragraph ${!isCorrectDelay ? "wrongEnter" : ""}`}>
+      <div className={style.block}>
+        <h2 className={style.blockHeader}>Блок автоклика</h2>
+        <div className={style.flexColumn}>
+          <p className={`${style.paragraph} ${!isCorrectDelay ? style.wrongEnter : ""}`}>
             {
               isCorrectDelay ? `Текущая задержка для автоклика в милисекундах: ${delay}`
                              : `Указано некорректное значение, значение задержки для счетчика НЕ было  изменено, применятеся предидущее значение ${delay} `
             }
           </p>
-          <p className="paragraph">Введите время для задержки между срабатываниями и нажмите Enter</p>
-          <input className={"input"} onKeyUp={onKeyUp} onKeyPress={changeDelay} type="text" placeholder={`Enter delay time from ${minDelay} to ${maxDelay} ms`} />
-          <p className="paragraph">Нажмите на кнопку что бы активировать/деактивиротать авторежим</p>
+          <p className={style.paragraph}>Введите время для задержки между срабатываниями и нажмите Enter</p>
+          <input className={style.input} onKeyUp={onKeyUp} onKeyPress={changeDelay} type="text" placeholder={`Enter delay time from ${minDelay} to ${maxDelay} ms`} />
+          <p className={style.paragraph}>Нажмите на кнопку что бы активировать/деактивиротать авторежим</p>
           <Button handler={autoClick}
                   caption={`Auto Click Mode: ${isAutoMode ? "On" : "Off"}`}/>
         </div>
