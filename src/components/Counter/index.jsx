@@ -14,6 +14,7 @@ const Counter = () => {
   const [maxStep, setMaxStep] = useState(100);
   const [minDelay, setMinDelay] = useState(500);
   const [maxDelay, setMaxDelay] = useState(10000);
+  const [isCorrectDelay, setIsCorrectDelay] = useState(true);
 
   const changeStep = ({target: {value}}) => {
     setStep(+value || 1);
@@ -40,17 +41,17 @@ const Counter = () => {
     if(code === "Enter"){
       const minDelayStr = "" + minDelay;
       if(value.length < minDelayStr.length){
-        console.log("Value must be more then ", value);
+        setIsCorrectDelay(false);
         return;
       }
       const regex = new RegExp(`[5-9][0-9]{2}[0-9]{0,1}$|(${maxDelay})`);
       if(regex.test(value)){
-        console.log("Regex = true");
+        setIsCorrectDelay(true);
         target.value = value;
         setDelay(+value);
         target.blur();
       }else{
-        console.log("Invalid value!!!");
+        setIsCorrectDelay(false);
         return;
       }
     }
@@ -116,7 +117,12 @@ const Counter = () => {
       <div className="block">
         <h2 className="block-header">Блок автоклика</h2>
         <div className="flex-column">
-          <p className="paragraph">Текущая задержка для автоклика в милисекундах: {delay}</p>
+          <p className={`paragraph ${!isCorrectDelay ? "wrongEnter" : ""}`}>
+            {
+              isCorrectDelay ? `Текущая задержка для автоклика в милисекундах: ${delay}`
+                             : `Указано некорректное значение, значение задержки для счетчика НЕ было  изменено, применятеся предидущее значение ${delay} `
+            }
+          </p>
           <p className="paragraph">Введите время для задержки между срабатываниями и нажмите Enter</p>
           <input className={"input"} onKeyUp={onKeyUp} onKeyPress={changeDelay} type="text" placeholder={`Enter delay time from ${minDelay} to ${maxDelay} ms`} />
           <p className="paragraph">Нажмите на кнопку что бы активировать/деактивиротать авторежим</p>
