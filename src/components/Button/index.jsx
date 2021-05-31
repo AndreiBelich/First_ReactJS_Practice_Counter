@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import "./Button.css";
+import style from "./Button.module.scss";
 
 const  Button = ({caption, handler}) => {
   return (
-    <button className="button" onClick={handler}>{caption}</button>
+    <button className={style.button} onClick={handler}>{caption}</button>
   );
 }
 
