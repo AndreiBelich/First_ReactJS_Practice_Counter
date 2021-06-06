@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import Button from "../Button";
+import Button from "./Button";
+import ContentBlock from "./ContentBlock";
 import style from "./Counter.module.scss";
 
 const Counter = () => {
@@ -22,11 +23,11 @@ const Counter = () => {
   }
 
   const increase = () => {
-    setValue((prev) => prev + step);
+    setValue((prevState) => prevState + step);
   }
 
   const decrease = () => {
-    setValue((prev) => prev - step < 0 ? 0 : prev - step);
+    setValue((prevState) => prevState - step < 0 ? 0 : prevState - step);
   }
 
   const changeMode = () => {
@@ -34,7 +35,7 @@ const Counter = () => {
   }
 
   const autoClick = () => {
-    setIsAutoMode((prev) => !prev);
+    setIsAutoMode((prevState) => !prevState);
   }
 
   const changeDelay = ({target, target: { value }, code}) => {
@@ -66,7 +67,6 @@ const Counter = () => {
 
   const validateStep = ({target, target: { value }}) => {
     if(value.length >= 3 && +value !== maxStep){
-      console.log("Mistake");
       target.value = value.slice(0, 2);
       setStep(+target.value);
       setControlValue(target.value);
@@ -89,47 +89,37 @@ const Counter = () => {
   });
   return (
     <article className={style.counter}>
-      <div className={style.block}>
-        <h2 className={style.blockHeader}>Блок регулирования режима</h2>
-        <div className={style.flexColumn}>
+      <ContentBlock headerCaption={`Блок регулирования режима`}>
           <p className={style.paragraph}>Выберите режим increase или decrease</p>
           <Button handler={changeMode} caption={"Change Mode"} />
-        </div>
-      </div>
- 
-      <div className={style.display}>{value}</div>
-      <div className={style.block}>
-        <h2 className={style.blockHeader}>Блок для регулирования шага</h2>
-        <div className={style.flexColumn}>
-          <p className={style.paragraph}>Текущее значение шага = {step}</p>
-          <p className={style.paragraph}>Введите новое значение шага и нажмите Enter</p>
-          <input onChange={changeStep} onKeyUp={validateStep} type="number" value={controlValue} min={minStep} max={maxStep} />
-        </div>
-      </div>
+      </ContentBlock>
 
-      <div className={style.block}>
-        <h2 className={style.blockHeader}>Текущий режим</h2>
-        <div className={style.flexColumn}>
-          <Button handler={isIncrease ? increase : decrease}
+      <div className={style.display}>{value}</div>
+
+      <ContentBlock headerCaption={`Блок для регулирования шага`}>
+        <p className={style.paragraph}>Текущее значение шага = {step}</p>
+        <p className={style.paragraph}>Введите новое значение шага и нажмите Enter</p>
+        <input onChange={changeStep} onKeyUp={validateStep} type="number" value={controlValue} min={minStep} max={maxStep} />
+      </ContentBlock>
+
+      <ContentBlock headerCaption={`Текущий режим`}>
+        <Button handler={isIncrease ? increase : decrease}
                 caption={isIncrease ? "Increase" : "Decrease"}/>
-        </div>
-      </div>
-      <div className={style.block}>
-        <h2 className={style.blockHeader}>Блок автоклика</h2>
-        <div className={style.flexColumn}>
-          <p className={`${style.paragraph} ${!isCorrectDelay ? style.wrongEnter : ""}`}>
-            {
-              isCorrectDelay ? `Текущая задержка для автоклика в милисекундах: ${delay}`
-                             : `Указано некорректное значение, значение задержки для счетчика НЕ было  изменено, применятеся предидущее значение ${delay} `
-            }
-          </p>
-          <p className={style.paragraph}>Введите время для задержки между срабатываниями и нажмите Enter</p>
-          <input className={style.input} onKeyUp={onKeyUp} onKeyPress={changeDelay} type="text" placeholder={`Enter delay time from ${minDelay} to ${maxDelay} ms`} />
-          <p className={style.paragraph}>Нажмите на кнопку что бы активировать/деактивиротать авторежим</p>
-          <Button handler={autoClick}
-                  caption={`Auto Click Mode: ${isAutoMode ? "On" : "Off"}`}/>
-        </div>
-      </div>
+      </ContentBlock>
+
+      <ContentBlock headerCaption={`Блок автоклика`}>
+        <p className={`${style.paragraph} ${!isCorrectDelay ? style.wrongEnter : ""}`}>
+          {
+            isCorrectDelay ? `Текущая задержка для автоклика в милисекундах: ${delay}`
+                           : `Указано некорректное значение, значение задержки для счетчика НЕ было  изменено, применятеся предидущее значение ${delay} `
+          }
+        </p>
+        <p className={style.paragraph}>Введите время для задержки между срабатываниями и нажмите Enter</p>
+        <input className={style.input} onKeyUp={onKeyUp} onKeyPress={changeDelay} type="text" placeholder={`Enter delay time from ${minDelay} to ${maxDelay} ms`} />
+        <p className={style.paragraph}>Нажмите на кнопку что бы активировать/деактивиротать авторежим</p>
+        <Button handler={autoClick}
+                caption={`Auto Click Mode: ${isAutoMode ? "On" : "Off"}`}/>
+      </ContentBlock>
     </article>
   )
 }
