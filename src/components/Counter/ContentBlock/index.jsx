@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 import style from "./ContentBlock.module.sass";
 
 function ContentBlock({headerCaption, children}) {
@@ -13,5 +14,14 @@ function ContentBlock({headerCaption, children}) {
     </>
   )
 }
+
+ContentBlock.defaultProps = {
+  headerCaption: "Header caption"
+};
+
+
+ContentBlock.propTypes = {
+  headerCaption: PropTypes.string.isRequired
+};
 
 export default ContentBlock;
