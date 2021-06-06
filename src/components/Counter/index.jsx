@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Button from "./Button";
 import ContentBlock from "./ContentBlock";
-import style from "./Counter.module.scss";
+import style from "./Counter.module.sass";
 
 const Counter = () => {
 
@@ -87,11 +87,12 @@ const Counter = () => {
     }
     return () => clearTimeout(id);
   });
+  
   return (
     <article className={style.counter}>
       <ContentBlock headerCaption={`Блок регулирования режима`}>
-          <p className={style.paragraph}>Выберите режим increase или decrease</p>
-          <Button handler={changeMode} caption={"Change Mode"} />
+        <p className={style.paragraph}>Выберите режим increase или decrease</p>
+        <Button handler={changeMode} caption={"Change Mode"} />
       </ContentBlock>
 
       <div className={style.display}>{value}</div>
